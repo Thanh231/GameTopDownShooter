@@ -1,6 +1,7 @@
 using System;
+using UnityEngine;
 
-public abstract class Stats 
+public abstract class Stats : ScriptableObject
 {
     public abstract void Save();
     public abstract void Load();
