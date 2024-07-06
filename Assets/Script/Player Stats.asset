@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe0dca0d2a6d70469b4cb0fa6c58aac, type: 3}
-  m_Name: Enemy Stats
+  m_Script: {fileID: 11500000, guid: 191d5c2b7e8809542b1ddcac585b8e26, type: 3}
+  m_Name: Player Stats
   m_EditorClassIdentifier: 
-  hp: 3
-  damage: 3
-  moveSpeed: 80
-  knockBackForce: 30
-  knockBackTime: 0.2
+  hp: 25
+  damage: 1
+  moveSpeed: 700
+  knockBackForce: 100
+  knockBackTime: 0.5
   invicibleTime: 0.3
-  minXp: 3
-  maxXp: 5
-  hpUp: 25
-  damageUp: 1
+  currentlevel: 1
+  maxLevel: 100
+  xpRequireToUgrade: 25
+  currentXp: 0
+  addHpWhenLevelUp: 10
+  qualityXpWhenLevelUp: 50

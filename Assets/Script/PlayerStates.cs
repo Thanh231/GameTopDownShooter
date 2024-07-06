@@ -34,19 +34,19 @@ public class PlayerStates : ActorStats
     }
     public override void Upgrade(Action onSuccess = null, Action onFailed = null)
     {
-        float qualityLevelUp = 0.5f * currentlevel / (2 - 0.5f);
-        if(currentXp >= xpRequireToUgrade && !IsMaxLevel())
+       
+        while(currentXp >= xpRequireToUgrade && !IsMaxLevel())
         {
-            hp += addHpWhenLevelUp * qualityLevelUp;
+            hp += addHpWhenLevelUp * Helper.GetQualityLevelUp(currentlevel);
             currentlevel++;
 
             xpRequireToUgrade -= xpRequireToUgrade;
-            xpRequireToUgrade += qualityXpWhenLevelUp * qualityLevelUp;
+            xpRequireToUgrade += qualityXpWhenLevelUp * Helper.GetQualityLevelUp(currentlevel);
 
             Save();
             onSuccess?.Invoke();
         }
-        else if(currentlevel < maxLevel || IsMaxLevel()) 
+        if(currentlevel < maxLevel || IsMaxLevel()) 
         {
             onFailed?.Invoke();
         }
