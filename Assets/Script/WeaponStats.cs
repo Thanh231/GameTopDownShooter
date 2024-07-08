@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "Weapon Stats", menuName = "Create Weapon Stats")]
 public class WeaponStats : Stats

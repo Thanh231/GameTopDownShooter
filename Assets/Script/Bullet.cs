@@ -4,11 +4,14 @@ public class Bullet : MonoBehaviour
 {
     Vector2 direction;
     [SerializeField]private float speed = 10;
-    [SerializeField]private float damage;
+    public float damage;
     RaycastHit2D hit;
     public GameObject bodyhit;
-    
 
+    private void Awake()
+    {
+        Destroy(gameObject, 5f);
+    }
     void Update()
     {
         transform.Translate(direction *  speed * Time.deltaTime);
@@ -21,7 +24,6 @@ public class Bullet : MonoBehaviour
             TakeDameToEnemy(col);
         }
     }
-
     private void TakeDameToEnemy(Collider2D col)
     {
         Actor enemyActor = col.GetComponent<Actor>();
@@ -30,8 +32,8 @@ public class Bullet : MonoBehaviour
         {
             enemyActor.TakeDamage(damage);
             Instantiate(bodyhit,hit.point, Quaternion.identity);
+            Destroy(gameObject);
         }
-
     }
 
     public void SetDirection(Vector2 direction)
