@@ -14,7 +14,7 @@ public class Actor : MonoBehaviour
     [LayerList]
     [SerializeField] private int m_normalLayer;
 
-    public WeaponStats weapon;
+    public Weapon weapon;
 
     protected bool m_isKnockBack;
     protected bool m_isInvicible;
@@ -44,7 +44,6 @@ public class Actor : MonoBehaviour
 
         onInit?.Invoke();
     }
-
     public virtual void Init()
     {
 
