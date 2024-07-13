@@ -31,7 +31,10 @@ public class Bullet : MonoBehaviour
         if(enemyActor != null )
         {
             enemyActor.TakeDamage(damage);
-            Instantiate(bodyhit,hit.point, Quaternion.identity);
+            if(bodyhit != null )
+            {
+                Instantiate(bodyhit, hit.point, Quaternion.identity);
+            }    
             Destroy(gameObject);
         }
     }

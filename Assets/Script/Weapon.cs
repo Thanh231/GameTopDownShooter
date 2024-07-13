@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
     public GameObject muzzlePrefab;
     public GameObject bulletPrefab;
     public Transform firePos;
+    
     private void Awake()
     {
         LoadStat();
@@ -54,14 +55,19 @@ public class Weapon : MonoBehaviour
     public void Shoot(Vector2 dir)
     {
         if (currentFirerate > 0||currentBullet < 0) return;
-        Instantiate(muzzlePrefab, firePos.position, transform.rotation);
-
-        GameObject bullet =  Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
-        Bullet setBullet = bullet.GetComponent<Bullet>();
-        if (setBullet != null)
+        if(muzzlePrefab != null)
         {
-            setBullet.damage = weaponStats.damage;
-            setBullet.SetDirection(dir);
+            Instantiate(muzzlePrefab, firePos.position, transform.rotation);
+        }
+        if(bulletPrefab != null)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
+            Bullet setBullet = bullet.GetComponent<Bullet>();
+            if (setBullet != null)
+            {
+                setBullet.damage = weaponStats.damage;
+                setBullet.SetDirection(dir);
+            }
         }
         currentBullet--;
         currentFirerate = weaponStats.fireRate;
@@ -78,6 +84,6 @@ public class Weapon : MonoBehaviour
     }
     public void SetRotate(float rotate)
     {
-        transform.Rotate(0, 0, rotate);
+        this.transform.eulerAngles = new Vector3(0,0,rotate);
     }
 }
