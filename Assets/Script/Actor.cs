@@ -8,15 +8,15 @@ public class Actor : MonoBehaviour
     public ActorStats statsData;
 
     [LayerList]
-    [SerializeField] private int m_invicibleLayer;
+    public int m_invicibleLayer;
     [LayerList]
-    [SerializeField] private int m_normalLayer;
+    public int m_normalLayer;
 
     public Weapon weapon;
 
     protected bool m_isKnockBack;
     protected bool m_isInvicible;
-    private bool m_isDead;
+    protected bool m_isDead;
     private float currentHP;
 
     protected Rigidbody2D m_rd;
@@ -48,18 +48,18 @@ public class Actor : MonoBehaviour
     }
     public virtual void TakeDamage(float damage)
     {
-        if (damage < 0 || m_isInvicible) return;
-        currentHP -= damage;
-        KnockBack();
-        if (currentHP < 0)
+        if (m_isInvicible) return;
+        CurrentHP -= damage;
+         KnockBack();
+        if (CurrentHP < 0)
         {
-            currentHP = 0;
+            CurrentHP = 0;
             Die();
         }
         onTakeDamage?.Invoke();
     }
 
-    private void Die()
+    public void Die()
     {
         m_isDead = true;
         m_rd.velocity = Vector3.zero;
@@ -67,7 +67,12 @@ public class Actor : MonoBehaviour
         Destroy(gameObject, 0.5f);
     }
 
-    private void KnockBack()
+    
+    protected virtual void Move()
+    {
+  
+    }
+    public void KnockBack()
     {
         if (m_isInvicible || m_isKnockBack || m_isDead) return;
         m_isKnockBack = true;
@@ -82,17 +87,12 @@ public class Actor : MonoBehaviour
 
         gameObject.layer = m_invicibleLayer;
         StartCoroutine(StopInvicible());
-
     }
 
     IEnumerator StopInvicible()
     {
         yield return new WaitForSeconds(statsData.invicibleTime);
         gameObject.layer = m_normalLayer;
-
-    }
-    protected virtual void Move()
-    {
-
+        m_isInvicible = false;
     }
 }

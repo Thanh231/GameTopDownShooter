@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : Actor
 {
@@ -18,10 +20,15 @@ public class Player : Actor
     private float currentSpeed;
     private PlayerStates playerStates;
 
+    public float radiusCheckEnemy;
+    public LayerMask enemyLayer;
 
     Vector2 mousePos;
     Vector2 movingDir;
     public Vector2 velocityLimit;
+
+    public UnityEvent OnAddXp;
+    public UnityEvent OnLevelUp;
 
     // Start is called before the first frame update
     public override void Init()
@@ -40,12 +47,44 @@ public class Player : Actor
     }
     private void FixedUpdate()
     {
-   
-        //weapon.SetRotate(lookDir);
         float angle = Mathf.Atan2(movingDir.y, movingDir.x) * Mathf.Rad2Deg;
-        if(weapon != null)
+        if(weapon != null && controller == Controller.moveByKeyboard)
             weapon.SetRotate(angle);
+
+        var enemies = Physics2D.OverlapCircleAll(transform.position,radiusCheckEnemy,enemyLayer);
+        CheckEnemyAround(enemies);
     }
+
+    private void CheckEnemyAround(Collider2D[] enemies)
+    {
+        if(enemies.Length <= 0 || enemies == null) return;
+
+        float min = float.MaxValue;
+        Actor enemyMin = null;
+        foreach(Collider2D enemy in enemies)
+        {
+            var enemyTemp = enemy.GetComponent<Actor>();
+            float minDistanceTemp = Vector2.Distance(transform.position,enemy.transform.position);
+            if(minDistanceTemp < min && enemyTemp != enemyMin)
+            {
+                min = minDistanceTemp;
+                enemyMin = enemyTemp;
+                ProcessWeapon(enemyMin);
+            }
+        }
+    }
+
+    private void ProcessWeapon(Actor enemy)
+    {
+
+        Vector2 direction = enemy.transform.position - transform.position;
+        direction.Normalize();
+        float angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
+        weapon.SetRotate(angle);
+        weapon.Shoot(angle);
+
+    }
+
     protected override void Move()
     {
         if (IsDead || m_isKnockBack) return;
@@ -58,7 +97,7 @@ public class Player : Actor
             MoveByKeyBoard();
         }
     }
-
+    
     private void MoveByKeyBoard()
     {
         moveInput.x = Input.GetAxis("Horizontal");
@@ -117,5 +156,27 @@ public class Player : Actor
         playerStates = (PlayerStates)statsData;
         playerStates.Load();
         CurrentHP = playerStates.hp;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color32(133, 250, 47, 50);
+        Gizmos.DrawSphere(transform.position, radiusCheckEnemy);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag(TagConstant.Enemy_Tag))
+        {
+            var damage  = collision.gameObject.GetComponent<Enemy>();
+            Vector2 direction = collision.gameObject.transform.position - transform.position;
+            TakeDamage(damage.statsData.damage);
+            if(m_isKnockBack)
+            {
+                m_rd.velocity = direction * -statsData.knockBackForce * Time.deltaTime;
+            }
+        }
+    }
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
     }
 }

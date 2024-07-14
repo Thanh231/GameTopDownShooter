@@ -3,7 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Vector2 direction;
-    [SerializeField]private float speed = 10;
+    [SerializeField]private float speed = 100f;
     public float damage;
     RaycastHit2D hit;
     public GameObject bodyhit;
@@ -11,17 +11,19 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         Destroy(gameObject, 5f);
+        direction = transform.up;
     }
     void Update()
     {
-        transform.Translate(direction *  speed * Time.deltaTime);
+        //transform.position += new Vector3(0, 1 * Time.deltaTime, 0f);
+        transform.Translate(direction * speed * Time.deltaTime);
         hit = Physics2D.Raycast(transform.position, direction * 0.5f);
         if (!hit || hit.collider == null) return;
         
         Collider2D col = hit.collider;
         if(col.CompareTag(TagConstant.Enemy_Tag))
         {
-            TakeDameToEnemy(col);
+            TakeDameToEnemy(col); 
         }
     }
     private void TakeDameToEnemy(Collider2D col)
@@ -39,8 +41,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void SetDirection(Vector2 direction)
+    public void SetDirection(Vector3 direction)
     {
-        this.direction = direction;
+        //this.direction = transform.up;
+
     }
 }

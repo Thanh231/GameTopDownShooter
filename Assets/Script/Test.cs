@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Vector3 test;
+    private void Awake()
     {
-        
-    }
+        test = transform.up;
+        test.Normalize();
 
-    // Update is called once per frame
-    void Update()
+        Debug.Log(transform.position);
+
+    }
+    private void Update()
     {
-        
+        Debug.Log(transform.up);
+        transform.Translate(test * 10 * Time.deltaTime);
     }
 }

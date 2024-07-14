@@ -52,21 +52,22 @@ public class Weapon : MonoBehaviour
         currentFirerate = weaponStats.fireRate;
         currentReloadTime = weaponStats.reloadTime;
     }
-    public void Shoot(Vector2 dir)
+    public void Shoot(float dir)
     {
         if (currentFirerate > 0||currentBullet < 0) return;
         if(muzzlePrefab != null)
         {
-            Instantiate(muzzlePrefab, firePos.position, transform.rotation);
+            Instantiate(muzzlePrefab, firePos.position, firePos.rotation);
         }
         if(bulletPrefab != null)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
+            Quaternion test = Quaternion.Euler(0, 0, dir);
+            GameObject bullet = Instantiate(bulletPrefab, firePos.position,firePos.rotation);
             Bullet setBullet = bullet.GetComponent<Bullet>();
             if (setBullet != null)
             {
                 setBullet.damage = weaponStats.damage;
-                setBullet.SetDirection(dir);
+                setBullet.SetDirection(firePos.transform.up);
             }
         }
         currentBullet--;
