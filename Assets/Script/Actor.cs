@@ -59,10 +59,11 @@ public class Actor : MonoBehaviour
         onTakeDamage?.Invoke();
     }
 
-    public void Die()
+    public virtual void Die()
     {
         m_isDead = true;
-        m_rd.velocity = Vector3.zero;
+        //m_rd.velocity = Vector2.zero;
+
         onDead?.Invoke();
         Destroy(gameObject, 0.5f);
     }

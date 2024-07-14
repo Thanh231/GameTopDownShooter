@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,14 +26,12 @@ public class Player : Actor
 
     public UnityEvent OnAddXp;
     public UnityEvent OnLevelUp;
+    public PlayerStates PlayerStates { get => playerStates; private set => playerStates = value; }
 
-    // Start is called before the first frame update
     public override void Init()
     {
         LoadStats();
     }
-
-    // Update is called once per frame
     void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -178,5 +173,22 @@ public class Player : Actor
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+    }
+    public void AddXp(float xpBonus)
+    {
+        if(playerStates == null) return;
+
+        playerStates.currentXp += xpBonus;
+
+        playerStates.Upgrade(OnUpgradeState);
+
+        OnAddXp?.Invoke();
+
+        playerStates.Save();
+
+    }    
+    private void OnUpgradeState()
+    {
+        OnLevelUp?.Invoke();
     }
 }

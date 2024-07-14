@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
     private int currentBullet;
     private float currentReloadTime;
     private float currentFirerate;
@@ -23,8 +22,6 @@ public class Weapon : MonoBehaviour
         LoadStat();
         currentReloadTime = 0;
     }
-
-    // Update is called once per frame
     void Update()
     {
         ReduceReloadTime();
@@ -61,13 +58,12 @@ public class Weapon : MonoBehaviour
         }
         if(bulletPrefab != null)
         {
-            Quaternion test = Quaternion.Euler(0, 0, dir);
             GameObject bullet = Instantiate(bulletPrefab, firePos.position,firePos.rotation);
             Bullet setBullet = bullet.GetComponent<Bullet>();
             if (setBullet != null)
             {
+                //setBullet.SetDirection(dir);
                 setBullet.damage = weaponStats.damage;
-                setBullet.SetDirection(firePos.transform.up);
             }
         }
         currentBullet--;

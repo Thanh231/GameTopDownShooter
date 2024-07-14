@@ -117,7 +117,10 @@ PrefabInstance:
       addedObject: {fileID: 2908425168364524024}
     - targetCorrespondingSourceObject: {fileID: 4433248158425927204, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -1037276412541861058}
+      addedObject: {fileID: -6724185339489929521}
+    - targetCorrespondingSourceObject: {fileID: 4433248158425927204, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3520792158775546930}
   m_SourcePrefab: {fileID: 100100000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
 --- !u!1 &1161161709988829801 stripped
 GameObject:
@@ -154,14 +157,14 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.00000007947286, y: 0.17028722}
   m_Size: {x: 0.23471062, y: 0.54470634}
   m_Direction: 0
---- !u!114 &-1037276412541861058
+--- !u!114 &-6724185339489929521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,6 +173,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1161161709988829801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5ba0038941ade43ac88a9f537528d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b51a3261e963b64f90454cbb6273baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyAfter: 5
+--- !u!114 &3520792158775546930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161161709988829801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4513c7ae214244046897b4354687ea3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  damage: 10
+  bodyhit: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

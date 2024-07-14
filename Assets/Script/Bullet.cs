@@ -3,47 +3,33 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Vector2 direction;
-    [SerializeField]private float speed = 100f;
+    [SerializeField]private float speed;
     public float damage;
     RaycastHit2D hit;
     public GameObject bodyhit;
+    public LayerMask enemyLayer;
 
     private void Awake()
     {
         Destroy(gameObject, 5f);
-        direction = transform.up;
+        direction = transform.up.normalized;
     }
     void Update()
     {
-        //transform.position += new Vector3(0, 1 * Time.deltaTime, 0f);
-        transform.Translate(direction * speed * Time.deltaTime);
-        hit = Physics2D.Raycast(transform.position, direction * 0.5f);
-        if (!hit || hit.collider == null) return;
-        
-        Collider2D col = hit.collider;
-        if(col.CompareTag(TagConstant.Enemy_Tag))
-        {
-            TakeDameToEnemy(col); 
-        }
+        transform.Translate(direction * speed * Time.deltaTime,Space.World);
     }
-    private void TakeDameToEnemy(Collider2D col)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Actor enemyActor = col.GetComponent<Actor>();
-
-        if(enemyActor != null )
+        if(collision.gameObject.CompareTag(TagConstant.Enemy_Tag))
         {
-            enemyActor.TakeDamage(damage);
-            if(bodyhit != null )
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
+            if(bodyhit != null)
             {
-                Instantiate(bodyhit, hit.point, Quaternion.identity);
-            }    
+                Instantiate(bodyhit);
+            }
             Destroy(gameObject);
-        }
+        }    
     }
 
-    public void SetDirection(Vector3 direction)
-    {
-        //this.direction = transform.up;
-
-    }
 }
