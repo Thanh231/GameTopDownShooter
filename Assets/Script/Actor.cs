@@ -7,17 +7,15 @@ public class Actor : MonoBehaviour
 {
     public ActorStats statsData;
 
-    [LayerList]
-    public int m_invicibleLayer;
-    [LayerList]
-    public int m_normalLayer;
+    [LayerList] public int m_invicibleLayer;
+    [LayerList] public int m_normalLayer;
 
     public Weapon weapon;
 
     protected bool m_isKnockBack;
     protected bool m_isInvicible;
     protected bool m_isDead;
-    private float currentHP;
+    public float currentHP;
 
     protected Rigidbody2D m_rd;
     protected Animator m_anim;
@@ -28,7 +26,13 @@ public class Actor : MonoBehaviour
     public UnityEvent onDead;
 
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
-    public float CurrentHP { get => currentHP; set => currentHP = value; }
+    public float CurrentHP { get => currentHP; 
+        
+        set
+        {
+            currentHP = value;
+        }
+    }
 
 
     protected virtual void Awake()
@@ -51,7 +55,7 @@ public class Actor : MonoBehaviour
         if (m_isInvicible) return;
         CurrentHP -= damage;
          KnockBack();
-        if (CurrentHP < 0)
+        if (CurrentHP <= 0)
         {
             CurrentHP = 0;
             Die();

@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 478379777574982146, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 478379777574982146, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_SortingOrder
@@ -132,7 +132,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muzzle Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1544577160758752453, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

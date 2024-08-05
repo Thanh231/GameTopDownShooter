@@ -9,27 +9,28 @@ public class ImageFilled : MonoBehaviour
     private Transform m_root;
 
     public Transform Root { get => m_root; set => m_root = value; }
+    private void Awake()
+    {
+       //m_filledImg = GetComponentInChildren<Image>();
+    }
 
     public void UpdateValue(float curVal, float totalVal, bool isReverse = false)
     {
         Show(true);
-        if (m_filledImg)
+        if (m_filledImg == null) return;
+        float rate = 0;
+
+        if (isReverse)
         {
-            float rate = 0;
-
-            if (isReverse)
-            {
-                rate = 1f - (curVal / totalVal);
-            }
-            else
-            {
-                rate = curVal / totalVal;
-            }
-
-            m_filledImg.fillAmount = rate;
+           rate = 1f - (curVal / totalVal);
         }
-    }
+        else
+        {
+           rate = curVal / totalVal;
+        }
 
+        m_filledImg.fillAmount = rate;
+    }
     public void Show(bool isShow)
     {
         gameObject.SetActive(isShow);

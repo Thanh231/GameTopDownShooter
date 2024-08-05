@@ -9,12 +9,6 @@ public class Enemy : Actor
     private float m_xpBonus;
 
     public float CurrentDamage { get => m_damage; private set => m_damage = value; }
-    /*private void Start()
-    {
-        LoadStats();
-        Debug.Log(CurrentHP);
-    }
-    */
     private void Update()
     {
     }
@@ -29,12 +23,20 @@ public class Enemy : Actor
         enemyStats.Load();
         CurrentHP = enemyStats.hp;
     }
+    private void Start()
+    {
+        Init();
+    }
     public override void Init()
     {
         m_player = GameManager.Ins.Player;
         if (statsData == null || m_player == null) return;
+        //enemyStats = (EnemyStats)statsData;
+        //enemyStats.Load();
+
         enemyStats = (EnemyStats)statsData;
         enemyStats.Load();
+        CurrentHP = enemyStats.hp;
 
         StateCaculate();
 
@@ -45,27 +47,28 @@ public class Enemy : Actor
     {
         base.Die();
         m_anim.SetBool(AniimationConstant.dead, true);
+        CineController.Ins.ShakeTrigger();
     }
     private void StateCaculate()
     {
         var playerStats = m_player.PlayerStates;
         if (playerStats == null) return;
 
-        float hpUpdage = enemyStats.hp * Helper.GetQualityLevelUp(playerStats.currentlevel + 1);
-        float damageUpgrade = enemyStats.damage * Helper.GetQualityLevelUp(playerStats.currentlevel + 1);
+        float hpUpdage = enemyStats.hpUp + Helper.GetQualityLevelUp(playerStats.currentlevel);
+        float damageUpgrade = enemyStats.damage + Helper.GetQualityLevelUp(playerStats.currentlevel);
         float randomXp = Random.Range(enemyStats.minXp, enemyStats.maxXp);
 
         CurrentHP = enemyStats.hp + hpUpdage;
         CurrentDamage = enemyStats.damage + damageUpgrade;
-        m_xpBonus = randomXp * Helper.GetQualityLevelUp(playerStats.currentlevel + 1);
+        m_xpBonus = randomXp * Helper.GetQualityLevelUp(playerStats.currentlevel);
     }
     private void OnspawnCollectable()
     {
-
+        CollectableManager.Ins.Spawn(transform.position);
     }
     private void OnAddXpToPlayer()
     {
-
+        GameManager.Ins.Player.AddXp(m_xpBonus);
     }
     private void OnDisable()
     {
@@ -78,17 +81,23 @@ public class Enemy : Actor
     }
     protected override void Move()
     {
-        if(m_player == null||IsDead) return;
-        Vector2 directionPlayer = m_player.transform.position - transform.position;
-        directionPlayer.Normalize();
-        if(!m_isKnockBack)
+        if (m_player == null || IsDead)
         {
-            Filp(directionPlayer);
+            m_rd.velocity = Vector3.zero;
+        }
+        else
+        {
+            Vector2 directionPlayer = m_player.transform.position - transform.position;
+            directionPlayer.Normalize();
+            if (!m_isKnockBack)
+            {
+                Filp(directionPlayer);
 
-            m_rd .velocity = directionPlayer * enemyStats.moveSpeed * Time.deltaTime;
-            return;
-        }    
-        m_rd.velocity = directionPlayer * -enemyStats.knockBackForce * Time.deltaTime;
+                m_rd.velocity = directionPlayer * enemyStats.moveSpeed * Time.deltaTime;
+                return;
+            }
+            m_rd.velocity = directionPlayer * -enemyStats.knockBackForce * Time.deltaTime;
+        }
     }
 
     private void Filp(Vector2 directionPlayer)

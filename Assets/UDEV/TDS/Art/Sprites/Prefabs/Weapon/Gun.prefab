@@ -84,7 +84,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5bb757f68fd74324ea3fc7920eb0ca02, type: 3}
     - target: {fileID: 478379777574982146, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 478379777574982146, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_SortingOrder
@@ -158,7 +158,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gun
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1544577160758752453, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4415307205155893000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
@@ -171,6 +172,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4433248158425927204, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6184073713482531422}
+    - targetCorrespondingSourceObject: {fileID: 4433248158425927204, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6994553002322337124}
   m_SourcePrefab: {fileID: 100100000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
 --- !u!1 &8007518066472397651 stripped
 GameObject:
@@ -192,16 +196,64 @@ MonoBehaviour:
   weaponStats: {fileID: 11400000, guid: 573a1e7912127ef49876bf0e9df99cc8, type: 2}
   OnShoot:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6994553002322337124}
+        m_TargetAssemblyTypeName: WeaponVisual, Assembly-CSharp
+        m_MethodName: OnShoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnReload:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6994553002322337124}
+        m_TargetAssemblyTypeName: WeaponVisual, Assembly-CSharp
+        m_MethodName: OnReload
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnReloadDone:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -6994553002322337124}
+        m_TargetAssemblyTypeName: WeaponVisual, Assembly-CSharp
+        m_MethodName: OnReloadDone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   muzzlePrefab: {fileID: 6934705883551260725, guid: fb0dafa2871569948bd5b30e73fb480e, type: 3}
   bulletPrefab: {fileID: 1161161709988829801, guid: 17e83ba1903b2974ba3c10a599a9f893, type: 3}
   firePos: {fileID: 6837795467994134726}
+--- !u!114 &-6994553002322337124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8007518066472397651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88045bab225be174bb5924edfd3d7b3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8061503212508138111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4415307205155893000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}

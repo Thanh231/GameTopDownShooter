@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4415307205155893000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.6
+      value: 3.29
       objectReference: {fileID: 0}
     - target: {fileID: 4415307205155893000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.93
+      value: -3.13
       objectReference: {fileID: 0}
     - target: {fileID: 4415307205155893000, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -96,7 +96,7 @@ PrefabInstance:
       addedObject: {fileID: 7151081453787568380}
     - targetCorrespondingSourceObject: {fileID: 4433248158425927204, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8439727654999598699}
+      addedObject: {fileID: 4037718087795449913}
     - targetCorrespondingSourceObject: {fileID: 899729474710852725, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6120700325493189451}
@@ -167,7 +167,7 @@ MonoBehaviour:
   onDead:
     m_PersistentCalls:
       m_Calls: []
---- !u!50 &8439727654999598699
+--- !u!50 &4037718087795449913
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -193,7 +193,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &2391615518112632734 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 899729474710852725, guid: 69342ee10491a404685886c0f5e84aa5, type: 3}

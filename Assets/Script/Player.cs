@@ -26,6 +26,7 @@ public class Player : Actor
 
     public UnityEvent OnAddXp;
     public UnityEvent OnLevelUp;
+    public UnityEvent OnLostLife;
     public PlayerStates PlayerStates { get => playerStates; private set => playerStates = value; }
 
     public override void Init()
@@ -127,7 +128,7 @@ public class Player : Actor
 
             float delta = currentSpeed * Time.deltaTime;
             float distanceToMousePos = Vector2.Distance(transform.position,mousePos);
-            distanceToMousePos = Mathf.Clamp(distanceToMousePos, 0, maxDistance/3);
+            distanceToMousePos = 1; //  Mathf.Clamp(distanceToMousePos, 0, maxDistance/3);
             
             delta *= distanceToMousePos;
 
@@ -154,8 +155,8 @@ public class Player : Actor
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color32(133, 250, 47, 50);
-        Gizmos.DrawSphere(transform.position, radiusCheckEnemy);
+        //Gizmos.color = new Color32(133, 250, 47, 50);
+        //Gizmos.DrawSphere(transform.position, radiusCheckEnemy);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -169,10 +170,39 @@ public class Player : Actor
                 m_rd.velocity = direction * -statsData.knockBackForce * Time.deltaTime;
             }
         }
+        else if(collision.gameObject.CompareTag(TagConstant.Collectable_Tag))
+        {
+            Collectable item = collision.gameObject.GetComponent<Collectable>();
+            if(item != null)
+            {
+                item.Trigger();
+            }
+            Destroy(collision.gameObject);
+        }
     }
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage);
+        if (m_isInvicible) return;
+        CurrentHP -= damage;
+        KnockBack();
+
+        onTakeDamage?.Invoke();
+        if (CurrentHP > 0) return;
+        GameManager.Ins.GameOverChecking(OnLostLifeDelegate, OnDeadDelegate);
+    }
+    private void OnLostLifeDelegate()
+    {
+        //CurrentHP = playerStates.addHpWhenLevelUp;
+        OnLostLife?.Invoke();
+        LoadStats();
+        GUIManager.Ins.UpdateHpInfo(CurrentHP, playerStates.hp);
+        GUIManager.Ins.UpdateLifeInfo(GameManager.Ins.Currentlife);
+        AudioController.Ins.PlaySound(AudioController.Ins.lostLife);
+    }
+    private void OnDeadDelegate()
+    {
+        CurrentHP = 0;
+        Die();
     }
     public void AddXp(float xpBonus)
     {

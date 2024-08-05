@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Weapon Stats
   m_EditorClassIdentifier: 
   bullet: 10
-  damage: 3
+  damage: 4
   fireRate: 1
   reloadTime: 5
   currentLevel: 1
   levelMax: 1000
   bulletUp: 1
-  damageUp: 0.25
+  damageUp: 2
   fireRateUp: 0.05
   reloadTimeUp: 0.1
   priceToUp: 25
-  qualityPriceWhenLevelUp: 25
+  qualityPriceWhenLevelUp: 5
   minFireRate: 0.1
   minReloadTime: 0.01

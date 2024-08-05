@@ -38,7 +38,7 @@ public class PlayerStates : ActorStats
             hp += addHpWhenLevelUp * Helper.GetQualityLevelUp(currentlevel);
             currentlevel++;
 
-            xpRequireToUgrade -= xpRequireToUgrade;
+            currentXp -= xpRequireToUgrade;
             xpRequireToUgrade += qualityXpWhenLevelUp * Helper.GetQualityLevelUp(currentlevel);
 
             Save();

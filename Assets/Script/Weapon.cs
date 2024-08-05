@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,10 +17,11 @@ public class Weapon : MonoBehaviour
     public GameObject muzzlePrefab;
     public GameObject bulletPrefab;
     public Transform firePos;
+    bool isReloading = true;
     
     private void Awake()
     {
-        LoadStat();
+        Reload();
         currentReloadTime = 0;
     }
     void Update()
@@ -31,17 +33,19 @@ public class Weapon : MonoBehaviour
     private void ReduceReloadTime()
     {
         currentReloadTime -= Time.deltaTime;
-        if (currentReloadTime > 0 ) return;
-
-        LoadStat();
-        OnReloadDone?.Invoke();
+        if (currentReloadTime < 0 && !isReloading)
+        {
+            LoadStat();
+            OnReloadDone?.Invoke();
+            isReloading = true;
+        }
     }
 
     private void ReduceFireRateTime()
     {
         currentFirerate -= Time.deltaTime;
         if (currentFirerate > 0) return;
-        OnShoot?.Invoke();
+        //OnShoot?.Invoke();
     }
     private void LoadStat()
     {
@@ -51,26 +55,40 @@ public class Weapon : MonoBehaviour
     }
     public void Shoot(float dir)
     {
-        if (currentFirerate > 0||currentBullet < 0) return;
-        if(muzzlePrefab != null)
+        if (currentFirerate > 0||currentBullet <= 0) 
         {
-            Instantiate(muzzlePrefab, firePos.position, firePos.rotation);
+            CheckReLoad();
         }
-        if(bulletPrefab != null)
+        else
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePos.position,firePos.rotation);
-            Bullet setBullet = bullet.GetComponent<Bullet>();
-            if (setBullet != null)
+            if (muzzlePrefab != null)
             {
-                //setBullet.SetDirection(dir);
-                setBullet.damage = weaponStats.damage;
+                GameObject muzzle = Instantiate(muzzlePrefab, firePos.position, firePos.rotation);
+                muzzle.transform.SetParent(firePos);
             }
+            if (bulletPrefab != null)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, firePos.position, firePos.rotation);
+                Bullet setBullet = bullet.GetComponent<Bullet>();
+                if (setBullet != null)
+                {
+                    //AudioController.Ins.PlaySound(AudioController.Ins.bullet);
+                    OnShoot?.Invoke();
+                    setBullet.damage = weaponStats.damage;
+                }
+            }
+            currentBullet--;
+            Debug.Log(currentBullet);
+            currentFirerate = weaponStats.fireRate;
         }
-        currentBullet--;
-        currentFirerate = weaponStats.fireRate;
-        if(currentBullet < 0)
+    }
+
+    private void CheckReLoad()
+    {
+        if (currentBullet <= 0 && currentReloadTime < 0)
         {
             Reload();
+            ReduceReloadTime();
         }
     }
 
@@ -78,6 +96,10 @@ public class Weapon : MonoBehaviour
     {
         OnReload?.Invoke();
         currentReloadTime = weaponStats.reloadTime;
+        isReloading = false;
+        ReduceReloadTime();
+
+       // currentBullet = weaponStats.bullet;
     }
     public void SetRotate(float rotate)
     {
